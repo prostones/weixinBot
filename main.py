@@ -10,7 +10,7 @@ from get_temp import getDataMust
 def text_reply(msg):
     data = getDataMust()
     nowtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-    if(len(msg and 'temp')):
+    if(len(msg and 'temp') or len(msg and u'温度')):
         msg.user.send("[" + nowtime + "]"
                       + u'当前温度是' + data.temp + u'摄氏度,'
                       + u'适度是' + data.wet)
@@ -36,8 +36,15 @@ def add_friend(msg):
 @itchat.msg_register(TEXT, isGroupChat=True)
 def text_reply(msg):
     if msg.isAt:
-        msg.user.send(u'@%s\u2005I received: %s' % (
-            msg.actualNickName, msg.text))
+        mymsg = ''
+        data = getDataMust()
+        nowtime = time.strftime('%Y-%m-%d %H:%M:%S',
+                                time.localtime(time.time()))
+        if(len(msg and 'temp') or len(msg and u'温度')):
+            mymsg = "[" + nowtime + "]" + u'当前温度是' + \
+                data.temp + u'摄氏度,' + u'适度是' + data.wet
+            msg.user.send(u'@%s\u2005Hi: %s' %
+                          (msg.actualNickName, mymsg))
 
 
 # itchat.auto_login(True)
