@@ -3,16 +3,17 @@
 import itchat
 import time
 from itchat.content import *
+from get_temp import getDataMust
 
 
 @itchat.msg_register([TEXT, MAP, CARD, NOTE, SHARING])
 def text_reply(msg):
-
-'''
-if msg incloud temp ，return this temp 
-'''
+    data = getDataMust()
+    nowtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     if(len(msg and 'temp')):
-        msg.user.send(u'温度是30摄氏度')
+        msg.user.send("[" + nowtime + "]"
+                      + u'当前温度是' + data.temp + u'摄氏度,'
+                      + u'适度是' + data.wet)
     else:
         msg.user.send('%s: %s' % (msg.type, msg.text))
 
@@ -43,4 +44,3 @@ def text_reply(msg):
 itchat.auto_login(enableCmdQR=True)
 
 itchat.run(True)
-

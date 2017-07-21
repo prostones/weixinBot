@@ -9,7 +9,7 @@ class MyData:
         self.temp = temp
         self.wet = wet
 
-def getData():
+def GetTest():
     PORT = 7  # 使用的树莓派的PIN13也就是GPIO27，根据自己连接位置更改此参数
     gpio.setwarnings(False)
     gpio.setmode(gpio.BOARD)
@@ -82,21 +82,14 @@ def getData():
         thisData.temp = str(temperature)
         thisData.wet = str(humidity)+"%"
     else:
-        #print "[",nowtime,"]error: the humidity,humidity_point,temperature,temperature_point,check is", humidity, humidity_point, temperature, temperature_point, check
+        print "[",nowtime,"]error: the humidity,humidity_point,temperature,temperature_point,check is", humidity, humidity_point, temperature, temperature_point, check
         #thisData = MyData(False,"","")
-        pass
 
     return thisData
 
-def getDataMust():
-    for i in range(1, 1000):
-        data = getData()    
-        if data.flag:  
-            return data
-
 if __name__ == '__main__':
     for i in range(1, 100):
-        data = getData()    
+        data = GetTest()    
         if data.flag:  
             break  
 
