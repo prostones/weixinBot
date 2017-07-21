@@ -9,4 +9,3 @@ def getTemp():
 
 if __name__ == '__main__':
     getTemp()
-    
