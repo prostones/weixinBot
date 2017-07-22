@@ -4,19 +4,14 @@ import itchat
 import time
 from itchat.content import *
 from get_temp import getDataMust
+from core import Info
 
 
 @itchat.msg_register([TEXT, MAP, CARD, NOTE, SHARING])
 def text_reply(msg):
-    data = getDataMust()
-    nowtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-    if(len(msg and 'temp') or len(msg and u'温度')):
-        msg.user.send("[" + nowtime + "]"
-                      + u'当前温度是' + data.temp + u'摄氏度,'
-                      + u'适度是' + data.wet)
-    else:
-        msg.user.send('%s: %s' % (msg.type, msg.text))
-
+    data = Info(msg)
+    msg.user.send(data.msgbody)
+    #msg.user.send('%s: %s' % (msg.type, msg.text))
 
 @itchat.msg_register([PICTURE, RECORDING, ATTACHMENT, VIDEO])
 def download_files(msg):
@@ -36,18 +31,11 @@ def add_friend(msg):
 @itchat.msg_register(TEXT, isGroupChat=True)
 def text_reply(msg):
     if msg.isAt:
-        mymsg = ''
-        data = getDataMust()
-        nowtime = time.strftime('%Y-%m-%d %H:%M:%S',
-                                time.localtime(time.time()))
-        if(len(msg and 'temp') or len(msg and u'温度')):
-            mymsg = "[" + nowtime + "]" + u'当前温度是' + \
-                data.temp + u'摄氏度,' + u'适度是' + data.wet
-            msg.user.send(u'@%s\u2005Hi: %s' %
-                          (msg.actualNickName, mymsg))
+        data = Info(msg)
+        msg.user.send(u'@%s\u2005Hi: %s' %
+                          (msg.actualNickName, data.msgbody))
 
 
 # itchat.auto_login(True)
 itchat.auto_login(enableCmdQR=True)
-
 itchat.run(True)
