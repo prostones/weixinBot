@@ -10,7 +10,7 @@ class MyData:
         self.wet = wet
 
 def GetTest():
-    PORT = 7  # 使用的树莓派的PIN13也就是GPIO27，根据自己连接位置更改此参数
+    PORT = 7  # 根据自己连接位置更改此参数
     gpio.setwarnings(False)
     gpio.setmode(gpio.BOARD)
     time.sleep(1)
